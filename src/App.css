@@ -653,11 +653,6 @@ h1 {
     transform: translateX(4px);
   }
 }
-@media (min-width: 1400px) {
-  .hero {
-    min-height: 600px;
-  }
-}
 @media (max-width: 1000px) {
   .app-shell {
     padding: 0 32px;
@@ -879,5 +874,143 @@ h1 {
   .sound-toggle.ant-btn {
     padding: 0 10px;
     font-size: 12px;
+  }
+}
+
+/* Fit laptop browser windows by using their height as well as their width. */
+@media (min-width: 1001px) {
+  .site-header {
+    height: clamp(76px, 11svh, 104px);
+    flex-shrink: 0;
+  }
+  .hero {
+    min-height: clamp(400px, 62svh, 600px);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+  .hero-art {
+    min-width: 0;
+  }
+  .feature-strip {
+    padding: 20px 0;
+    margin-top: 8px;
+  }
+  footer {
+    padding: 22px 0;
+  }
+}
+
+/* Five cards in one row make every level visible on a typical laptop. */
+@media (min-width: 1200px) {
+  .level-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .level-card,
+  .level-card:nth-child(4) {
+    grid-column: auto;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .level-card h2 {
+    font-size: 20px;
+    min-height: 54px;
+    line-height: 1.35;
+  }
+  .level-card p {
+    min-height: 63px;
+  }
+  .level-card-bottom {
+    margin-top: auto;
+    padding-top: 18px;
+  }
+  .page-heading {
+    margin: 18px 0 30px;
+  }
+}
+
+@media (min-width: 1001px) and (max-height: 800px) {
+  .hero h1 {
+    font-size: clamp(44px, 4vw, 56px);
+    margin-bottom: 20px;
+  }
+  .hero .intro {
+    margin: 18px 0 24px;
+  }
+  .hero-art {
+    height: 400px;
+  }
+  .hero-art .orbit {
+    scale: 0.9;
+  }
+  .hero-art .speech-bubble {
+    top: 6px;
+  }
+  .hero-art .mascot-shadow {
+    bottom: 46px;
+  }
+  .page-heading {
+    margin: 8px 0 20px;
+  }
+  .page-heading h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
+  }
+  .page-heading .eyebrow {
+    margin-bottom: 8px;
+  }
+  .level-card {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+  .level-card-top {
+    margin-bottom: 10px;
+  }
+  .level-card-bottom {
+    margin-top: 10px;
+  }
+  .level-tip {
+    margin-top: 20px;
+  }
+  .game-stats {
+    margin: 10px 3px 16px;
+  }
+  .question-card {
+    padding: 28px 30px;
+  }
+  .question-card h1 {
+    margin-bottom: 22px;
+  }
+  .feedback {
+    min-height: 54px;
+  }
+  .game-over {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    column-gap: 26px;
+    align-items: center;
+    padding: 30px;
+  }
+  .game-over > .mascot {
+    grid-column: 1;
+    grid-row: 1 / span 5;
+    margin: 0 auto;
+  }
+  .game-over > :not(.mascot) {
+    grid-column: 2;
+  }
+  .game-over h1 {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+  .game-over .eyebrow {
+    margin-bottom: 12px;
+  }
+  .game-over .earned-stars {
+    margin-bottom: 14px;
+  }
+  .game-over .stack-actions {
+    width: 100%;
+    margin-top: 12px;
   }
 }
