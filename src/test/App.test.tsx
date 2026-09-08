@@ -155,7 +155,7 @@ describe('Matteglim', () => {
         expect(input()).toHaveValue('')
         expect(input()).not.toHaveAttribute('readonly')
         expect(screen.getByTestId('celebration')).toBeInTheDocument()
-        act(() => vi.advanceTimersByTime(1300))
+        act(() => vi.advanceTimersByTime(5000))
         expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
         submit('999')
         expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
@@ -170,6 +170,57 @@ describe('Matteglim', () => {
     expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
     expect(input()).toHaveFocus()
     expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
+  })
+  it('grows celebrations and finishes at 30 points, then allows replay and another level', () => {
+    vi.useFakeTimers()
+    open('/game/1')
+    let previousCount = 0
+    let previousSize = 0
+    let previousDuration = 0
+    for (let score = 1; score <= 30; score++) {
+      submit(currentAnswer())
+      expect(screen.getByRole('progressbar')).toHaveAttribute(
+        'value',
+        String(score),
+      )
+      if (score % 5 === 0) {
+        const celebration = screen.getByTestId('celebration')
+        expect(celebration.childElementCount).toBeGreaterThan(previousCount)
+        const size = parseFloat(
+          (celebration.firstElementChild as HTMLElement).style.width,
+        )
+        const duration = parseFloat(
+          celebration.style.getPropertyValue('--duration'),
+        )
+        expect(size).toBeGreaterThan(previousSize)
+        expect(duration).toBeGreaterThan(previousDuration)
+        previousCount = celebration.childElementCount
+        previousSize = size
+        previousDuration = duration
+      }
+      act(() => vi.advanceTimersByTime(1100))
+    }
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: t.levelComplete })).toHaveFocus()
+    expect(screen.getByText('30', { selector: 'strong' })).toBeInTheDocument()
+    expect(screen.getByTestId('celebration')).toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(10000))
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: t.playAgain }))
+    expect(input()).toHaveFocus()
+    expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: t.hearts(3) })).toBeInTheDocument()
+    for (let score = 1; score <= 30; score++) {
+      submit(currentAnswer())
+      if (score < 30) act(() => vi.advanceTimersByTime(1100))
+    }
+    fireEvent.click(screen.getByRole('link', { name: t.anotherLevel }))
+    expect(
+      screen.getByRole('heading', { name: t.levelIntro }),
+    ).toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(10000))
+    expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
   })
   it('rejects empty, signed, decimal and nonnumeric input without losing hearts', () => {
     open('/game/1')

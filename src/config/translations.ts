@@ -51,6 +51,11 @@ const sv = {
     },
   } as Record<string, { name: string; description: string; example: string }>,
   score: 'Poäng',
+  levelComplete: 'Du klarade nivån! 🎉',
+  levelCompleteDescription: 'Vilket matteäventyr! Vill du spela mer?',
+  playAgain: 'Spela igen',
+  levelProgress: (score: number, target: number) =>
+    `${score} av ${target} poäng`,
   hearts: (count: number) => `${count} hjärtan kvar av 3`,
   questionPrompt: 'Vad blir det?',
   questionNote: 'Ta den tid du behöver.',

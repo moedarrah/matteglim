@@ -3,7 +3,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Button, Input } from 'antd'
 import type { InputRef } from 'antd'
 import { Link, Navigate, useParams } from 'react-router'
-import { INITIAL_HEARTS, levels } from '../config/levels'
+import {
+  INITIAL_HEARTS,
+  LEVEL_TARGET,
+  CELEBRATION_INTERVAL,
+  levels,
+} from '../config/levels'
 import { t } from '../config/translations'
 import type { Level } from '../types'
 import { generateQuestion } from '../utils/generateQuestion'
@@ -11,6 +16,7 @@ import { Hearts } from '../components/Hearts'
 import { Score } from '../components/Score'
 import { GameOver } from '../components/GameOver'
 import { Celebration } from '../components/Celebration'
+import { LevelComplete } from '../components/LevelComplete'
 
 export function MathGame() {
   const { levelId } = useParams()
@@ -29,17 +35,19 @@ function GameSession({ level }: { level: Level }) {
   const [score, setScore] = useState(0)
   const [milestone, setMilestone] = useState<number | null>(null)
   const [status, setStatus] = useState<'idle' | 'correct' | 'wrong'>('idle')
+  const completed = score >= LEVEL_TARGET
   const inputRef = useRef<InputRef>(null)
   const locked = useRef(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => () => clearTimeout(timer.current), [])
   useEffect(() => {
-    if (hearts > 0) inputRef.current?.focus({ preventScroll: true })
-  }, [question, hearts, status])
+    if (hearts > 0 && !completed)
+      inputRef.current?.focus({ preventScroll: true })
+  }, [question, hearts, status, completed])
 
   useEffect(() => {
-    if (hearts === 0) return
+    if (hearts === 0 || completed) return
 
     function restoreAnswerFocus(event: MouseEvent) {
       // Keep Tab navigation available; restore focus only after a click or tap.
@@ -55,19 +63,21 @@ function GameSession({ level }: { level: Level }) {
 
     document.addEventListener('click', restoreAnswerFocus)
     return () => document.removeEventListener('click', restoreAnswerFocus)
-  }, [hearts])
+  }, [hearts, completed])
 
   function checkAnswer(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     inputRef.current?.focus({ preventScroll: true })
-    if (locked.current || hearts === 0 || !/^\d+$/.test(answer)) return
+    if (locked.current || completed || hearts === 0 || !/^\d+$/.test(answer))
+      return
     if (Number(answer) === question.answer) {
       locked.current = true
       const nextScore = score + 1
       setScore(nextScore)
-      if (nextScore % 5 === 0) setMilestone(nextScore)
+      if (nextScore % CELEBRATION_INTERVAL === 0) setMilestone(nextScore)
       setStatus('correct')
       play('correct')
+      if (nextScore >= LEVEL_TARGET) return
       timer.current = setTimeout(() => {
         setQuestion((previous) => generateQuestion(level, previous))
         setAnswer('')
@@ -100,7 +110,9 @@ function GameSession({ level }: { level: Level }) {
   }
   return (
     <section className="game-page">
-      {milestone !== null && hearts > 0 && <Celebration key={milestone} />}
+      {milestone !== null && hearts > 0 && (
+        <Celebration key={milestone} score={milestone} />
+      )}
       <div className="game-navigation">
         <Link to="/levels" className="back-link">
           ← {t.back}
@@ -113,7 +125,15 @@ function GameSession({ level }: { level: Level }) {
         <Score score={score} />
         <Hearts count={hearts} />
       </div>
-      {hearts === 0 ? (
+      <div className="level-progress">
+        <label htmlFor="level-progress">
+          {t.levelProgress(score, LEVEL_TARGET)}
+        </label>
+        <progress id="level-progress" value={score} max={LEVEL_TARGET} />
+      </div>
+      {completed ? (
+        <LevelComplete score={score} onRestart={restart} />
+      ) : hearts === 0 ? (
         <GameOver score={score} onRestart={restart} />
       ) : (
         <div className={`paper-card question-card ${status}`}>
@@ -157,7 +177,7 @@ function GameSession({ level }: { level: Level }) {
               aria-live="polite"
             >
               {status === 'correct'
-                ? score % 5 === 0
+                ? score % CELEBRATION_INTERVAL === 0
                   ? t.milestoneCelebration(score)
                   : t.greatJob
                 : status === 'wrong'

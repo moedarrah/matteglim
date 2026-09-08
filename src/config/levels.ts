@@ -1,5 +1,7 @@
 import type { Level } from '../types'
 export const INITIAL_HEARTS = 3
+export const LEVEL_TARGET = 30
+export const CELEBRATION_INTERVAL = 5
 export const levels: readonly Level[] = [
   {
     id: '1',

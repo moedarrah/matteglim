@@ -1029,7 +1029,7 @@ h1 {
   width: 10px;
   height: 16px;
   opacity: 0;
-  animation: confetti-fall 2s var(--delay) ease-in forwards;
+  animation: confetti-fall var(--duration) var(--delay) ease-in forwards;
 }
 @keyframes confetti-fall {
   0% {
@@ -1048,5 +1048,67 @@ h1 {
 @media (prefers-reduced-motion: reduce) {
   .celebration {
     display: none;
+  }
+}
+
+.level-progress {
+  display: grid;
+  gap: 8px;
+  margin: 0 3px 18px;
+}
+.level-progress label {
+  font-size: 13px;
+  color: #596c77;
+}
+.level-progress progress {
+  width: 100%;
+  height: 10px;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e9edf3;
+  accent-color: #365bd7;
+}
+.level-progress progress::-webkit-progress-bar {
+  background: #e9edf3;
+}
+.level-progress progress::-webkit-progress-value {
+  background: #365bd7;
+  border-radius: 10px;
+}
+.level-progress progress::-moz-progress-bar {
+  background: #365bd7;
+  border-radius: 10px;
+}
+.completion-trophy {
+  font-size: clamp(56px, 9vh, 88px);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.level-complete h1 {
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: -1px;
+  margin-bottom: 18px;
+}
+.level-complete p {
+  color: #596c77;
+}
+.level-complete .completion-score {
+  color: #80621b;
+  font-weight: 900;
+  font-size: 20px;
+}
+.completion-link {
+  font-size: 17px;
+  justify-content: center;
+  min-height: 62px;
+  padding: 15px;
+}
+.level-complete .stack-actions {
+  margin-top: 20px;
+}
+@media (min-width: 1001px) and (max-height: 800px) {
+  .level-complete {
+    padding: 24px 30px;
   }
 }
