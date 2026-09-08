@@ -33,11 +33,31 @@ function GameSession({ level }: { level: Level }) {
 
   useEffect(() => () => clearTimeout(timer.current), [])
   useEffect(() => {
-    if (hearts > 0 && status !== 'correct') inputRef.current?.focus()
+    if (hearts > 0) inputRef.current?.focus({ preventScroll: true })
   }, [question, hearts, status])
+
+  useEffect(() => {
+    if (hearts === 0) return
+
+    function restoreAnswerFocus(event: MouseEvent) {
+      // Keep Tab navigation available; restore focus only after a click or tap.
+      if (event.detail === 0 || !(event.target instanceof Element)) return
+      if (
+        event.target.closest(
+          'a, input, textarea, select, [contenteditable], [role="dialog"]',
+        )
+      )
+        return
+      inputRef.current?.focus({ preventScroll: true })
+    }
+
+    document.addEventListener('click', restoreAnswerFocus)
+    return () => document.removeEventListener('click', restoreAnswerFocus)
+  }, [hearts])
 
   function checkAnswer(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
+    inputRef.current?.focus({ preventScroll: true })
     if (locked.current || hearts === 0 || !/^\d+$/.test(answer)) return
     if (Number(answer) === question.answer) {
       locked.current = true

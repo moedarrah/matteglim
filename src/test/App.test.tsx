@@ -116,6 +116,25 @@ describe('Matteglim', () => {
     expect(screen.getByRole('status')).toHaveTextContent(t.greatJob)
     expect(screen.getByText('1', { selector: 'strong' })).toBeInTheDocument()
   })
+  it('restores answer focus after clicks and keeps keyboard navigation available', async () => {
+    const user = userEvent.setup()
+    open('/game/1')
+    await user.click(screen.getByRole('heading', { name: t.questionPrompt }))
+    expect(input()).toHaveFocus()
+    await user.click(screen.getByRole('button', { name: t.sound }))
+    expect(input()).toHaveFocus()
+    await user.type(input(), currentAnswer())
+    await user.tab()
+    const checkButton = screen.getByRole('button', { name: t.checkAnswer })
+    expect(checkButton).toHaveFocus()
+    await user.click(checkButton)
+    expect(input()).toHaveFocus()
+    expect(input()).toHaveAttribute('readonly')
+    await user.click(screen.getByRole('link', { name: /Tillbaka/ }))
+    expect(
+      screen.getByRole('heading', { name: t.levelIntro }),
+    ).toBeInTheDocument()
+  })
   it('rejects empty, signed, decimal and nonnumeric input without losing hearts', () => {
     open('/game/1')
     for (const answer of ['', '-1', '1.2', 'abc', '1e2', ' ']) submit(answer)
