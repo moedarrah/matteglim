@@ -135,6 +135,42 @@ describe('Matteglim', () => {
       screen.getByRole('heading', { name: t.levelIntro }),
     ).toBeInTheDocument()
   })
+  it('celebrates every ten points once, without interrupting focus or the next question', () => {
+    vi.useFakeTimers()
+    open('/game/1')
+    expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+    for (let score = 1; score <= 20; score++) {
+      submit(currentAnswer())
+      if (score % 10 === 0) {
+        expect(screen.getByRole('status')).toHaveTextContent(
+          t.milestoneCelebration(score),
+        )
+        expect(screen.getByTestId('celebration')).toBeInTheDocument()
+        expect(input()).toHaveFocus()
+        fireEvent.submit(input().closest('form')!)
+        expect(
+          screen.getByText(String(score), { selector: 'strong' }),
+        ).toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(1100))
+        expect(input()).toHaveValue('')
+        expect(input()).not.toHaveAttribute('readonly')
+        expect(screen.getByTestId('celebration')).toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(1300))
+        expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+        submit('999')
+        expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(450))
+      } else {
+        expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(1100))
+      }
+    }
+    submit('999')
+    fireEvent.click(screen.getByRole('button', { name: /Försök igen/ }))
+    expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
+    expect(input()).toHaveFocus()
+    expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
+  })
   it('rejects empty, signed, decimal and nonnumeric input without losing hearts', () => {
     open('/game/1')
     for (const answer of ['', '-1', '1.2', 'abc', '1e2', ' ']) submit(answer)

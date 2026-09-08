@@ -1014,3 +1014,39 @@ h1 {
     margin-top: 12px;
   }
 }
+
+/* Decorative confetti never intercepts taps or changes the page layout. */
+.celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti-piece {
+  position: absolute;
+  top: -24px;
+  width: 10px;
+  height: 16px;
+  opacity: 0;
+  animation: confetti-fall 2s var(--delay) ease-in forwards;
+}
+@keyframes confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  10%,
+  65% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift), 100svh, 0) rotate(var(--spin));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .celebration {
+    display: none;
+  }
+}

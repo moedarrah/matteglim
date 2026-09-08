@@ -58,6 +58,8 @@ const sv = {
   checkAnswer: 'Kontrollera svar',
   nextQuestion: 'Nästa fråga kommer strax…',
   greatJob: 'Bra jobbat! 🎉',
+  milestoneCelebration: (score: number) =>
+    `${score} poäng! Du är en mattestjärna! 🎉`,
   wrongAnswer: 'Nästan! Försök igen. Du kan klara det! 💛',
   inputHint: 'Skriv en siffra och tryck på knappen.',
   gameOverTitle: 'Bra kämpat! ⭐',

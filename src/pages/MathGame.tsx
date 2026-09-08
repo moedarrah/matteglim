@@ -10,6 +10,7 @@ import { generateQuestion } from '../utils/generateQuestion'
 import { Hearts } from '../components/Hearts'
 import { Score } from '../components/Score'
 import { GameOver } from '../components/GameOver'
+import { Celebration } from '../components/Celebration'
 
 export function MathGame() {
   const { levelId } = useParams()
@@ -26,6 +27,7 @@ function GameSession({ level }: { level: Level }) {
   const [answer, setAnswer] = useState('')
   const [hearts, setHearts] = useState(INITIAL_HEARTS)
   const [score, setScore] = useState(0)
+  const [milestone, setMilestone] = useState<number | null>(null)
   const [status, setStatus] = useState<'idle' | 'correct' | 'wrong'>('idle')
   const inputRef = useRef<InputRef>(null)
   const locked = useRef(false)
@@ -61,7 +63,9 @@ function GameSession({ level }: { level: Level }) {
     if (locked.current || hearts === 0 || !/^\d+$/.test(answer)) return
     if (Number(answer) === question.answer) {
       locked.current = true
-      setScore((value) => value + 1)
+      const nextScore = score + 1
+      setScore(nextScore)
+      if (nextScore % 10 === 0) setMilestone(nextScore)
       setStatus('correct')
       play('correct')
       timer.current = setTimeout(() => {
@@ -90,11 +94,13 @@ function GameSession({ level }: { level: Level }) {
     setQuestion((previous) => generateQuestion(level, previous))
     setHearts(INITIAL_HEARTS)
     setScore(0)
+    setMilestone(null)
     setAnswer('')
     setStatus('idle')
   }
   return (
     <section className="game-page">
+      {milestone !== null && hearts > 0 && <Celebration key={milestone} />}
       <div className="game-navigation">
         <Link to="/levels" className="back-link">
           ← {t.back}
@@ -151,7 +157,9 @@ function GameSession({ level }: { level: Level }) {
               aria-live="polite"
             >
               {status === 'correct'
-                ? t.greatJob
+                ? score % 10 === 0
+                  ? t.milestoneCelebration(score)
+                  : t.greatJob
                 : status === 'wrong'
                   ? t.wrongAnswer
                   : t.inputHint}
