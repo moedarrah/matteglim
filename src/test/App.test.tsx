@@ -135,13 +135,13 @@ describe('Matteglim', () => {
       screen.getByRole('heading', { name: t.levelIntro }),
     ).toBeInTheDocument()
   })
-  it('celebrates every ten points once, without interrupting focus or the next question', () => {
+  it('celebrates every five points once, without interrupting focus or the next question', () => {
     vi.useFakeTimers()
     open('/game/1')
     expect(screen.queryByTestId('celebration')).not.toBeInTheDocument()
-    for (let score = 1; score <= 20; score++) {
+    for (let score = 1; score <= 10; score++) {
       submit(currentAnswer())
-      if (score % 10 === 0) {
+      if (score % 5 === 0) {
         expect(screen.getByRole('status')).toHaveTextContent(
           t.milestoneCelebration(score),
         )

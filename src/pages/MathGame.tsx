@@ -65,7 +65,7 @@ function GameSession({ level }: { level: Level }) {
       locked.current = true
       const nextScore = score + 1
       setScore(nextScore)
-      if (nextScore % 10 === 0) setMilestone(nextScore)
+      if (nextScore % 5 === 0) setMilestone(nextScore)
       setStatus('correct')
       play('correct')
       timer.current = setTimeout(() => {
@@ -157,7 +157,7 @@ function GameSession({ level }: { level: Level }) {
               aria-live="polite"
             >
               {status === 'correct'
-                ? score % 10 === 0
+                ? score % 5 === 0
                   ? t.milestoneCelebration(score)
                   : t.greatJob
                 : status === 'wrong'
