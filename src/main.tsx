@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router'
+import { AppRouter } from './components/AppRouter'
 import '@fontsource/nunito/latin-400.css'
 import '@fontsource/nunito/latin-600.css'
 import '@fontsource/nunito/latin-700.css'
@@ -10,8 +10,8 @@ import './index.css'
 import App from './App'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <AppRouter>
       <App />
-    </BrowserRouter>
+    </AppRouter>
   </StrictMode>,
 )

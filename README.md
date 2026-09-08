@@ -40,3 +40,13 @@ Keyboard and Enter submission, numeric tablet keyboard, visible focus, live feed
 ## Sounds
 
 Short, quiet Web Audio tones accompany starting, level selection, correct answers, mistakes, and game over. The Swedish header sound toggle remembers its setting in localStorage. Audio starts only after interaction; unsupported or blocked audio does not affect gameplay. There are no audio downloads or background music.
+
+## GitHub Pages
+
+The workflow `.github/workflows/deploy.yml` installs dependencies with Yarn, lints, tests, builds, and deploys on pushes to `main`. In the GitHub repository, select **Settings → Pages → Build and deployment → Source → GitHub Actions**, then push this configuration.
+
+Expected site: https://moedarrah.github.io/matteglim/
+
+`yarn build:pages` builds with the `/matteglim/` asset base and hash routing so shared game links and refreshes work on GitHub Pages, e.g. `/matteglim/#/game/1`. Normal local development retains `/game/1` URLs. `yarn preview:pages` previews the Pages build locally under `/matteglim/`. If the repository is renamed, update the Pages base in `vite.config.ts`.
+
+The workflow must be committed and pushed before GitHub can run it. This repository setup does not itself enable Pages or publish a site.

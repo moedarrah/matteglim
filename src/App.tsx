@@ -25,7 +25,14 @@ export default function App() {
         }}
       >
         <div className="app-shell">
-          <a className="skip-link" href="#main">
+          <a
+            className="skip-link"
+            href="#main"
+            onClick={(event) => {
+              event.preventDefault()
+              document.getElementById('main')?.focus()
+            }}
+          >
             {t.skip}
           </a>
           <header className="site-header">
@@ -45,7 +52,7 @@ export default function App() {
               <SoundToggle />
             </div>
           </header>
-          <main id="main">
+          <main id="main" tabIndex={-1}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/levels" element={<LevelSelection />} />
