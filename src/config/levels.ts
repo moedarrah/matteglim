@@ -3,6 +3,7 @@ export const INITIAL_HEARTS = 3
 export const LEVEL_TARGET = 30
 export const CELEBRATION_INTERVAL = 5
 export const levels: readonly Level[] = [
+  // Arithmetic levels keep their original order and routes.
   {
     id: '1',
     min: 0,
@@ -47,5 +48,15 @@ export const levels: readonly Level[] = [
     multiplicationMax: 10,
     color: 'yellow',
     icon: '🌟',
+  },
+  {
+    id: '6',
+    min: 0,
+    max: 100,
+    operators: ['+'],
+    multiplicationMax: 0,
+    color: 'mint',
+    icon: '🧩',
+    exercise: 'place-value',
   },
 ]

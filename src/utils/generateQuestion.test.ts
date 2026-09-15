@@ -50,3 +50,38 @@ describe('question generation', () => {
     random.mockRestore()
   })
 })
+
+describe('place value questions', () => {
+  const level = levels.find((level) => level.id === '6')!
+  it.each([0, 9, 10, 23, 99, 100])(
+    'represents %i with whole tens and remaining ones',
+    (number) => {
+      const random = vi
+        .spyOn(Math, 'random')
+        .mockReturnValue((number + 0.1) / 101)
+      const q = generateQuestion(level)
+      expect(q).toEqual({
+        first: Math.floor(number / 10) * 10,
+        second: number % 10,
+        operator: '+',
+        answer: number,
+        mode: 'count',
+      })
+      random.mockRestore()
+    },
+  )
+  it('cycles all activities and avoids repeated numbers even with fixed randomness', () => {
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0.999)
+    const count = generateQuestion(level)
+    const build = generateQuestion(level, count)
+    const split = generateQuestion(level, build)
+    expect([
+      count.mode,
+      build.mode,
+      split.mode,
+      generateQuestion(level, split).mode,
+    ]).toEqual(['count', 'build', 'split', 'count'])
+    expect([count.answer, build.answer, split.answer]).toEqual([100, 0, 100])
+    random.mockRestore()
+  })
+})

@@ -7,6 +7,23 @@ export function isSameQuestion(a: Question, b: Question) {
   )
 }
 export function generateQuestion(level: Level, previous?: Question): Question {
+  if (level.exercise === 'place-value') {
+    let answer = randomInteger(level.min, level.max)
+    if (answer === previous?.answer)
+      answer = answer === level.max ? level.min : answer + 1
+    return {
+      first: Math.floor(answer / 10) * 10,
+      second: answer % 10,
+      operator: '+',
+      answer,
+      mode:
+        previous?.mode === 'count'
+          ? 'build'
+          : previous?.mode === 'build'
+            ? 'split'
+            : 'count',
+    }
+  }
   let question: Question
   let attempts = 0
   do {

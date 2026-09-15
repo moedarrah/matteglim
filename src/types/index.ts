@@ -7,10 +7,12 @@ export interface Level {
   multiplicationMax: number
   color: string
   icon: string
+  exercise?: 'place-value'
 }
 export interface Question {
   first: number
   second: number
   operator: Operator
   answer: number
+  mode?: 'count' | 'build' | 'split'
 }

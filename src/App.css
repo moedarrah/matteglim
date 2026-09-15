@@ -357,9 +357,7 @@ h1 {
     transform 0.2s,
     box-shadow 0.2s;
 }
-.level-card:nth-child(4) {
-  grid-column: 2 / span 2;
-}
+
 .level-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 0 #00000008;
@@ -759,9 +757,7 @@ h1 {
   .level-card:nth-child(4) {
     grid-column: auto;
   }
-  .level-card:last-child {
-    grid-column: 1 / -1;
-  }
+
   .game-stats {
     margin: 19px 0;
   }
@@ -899,10 +895,10 @@ h1 {
   }
 }
 
-/* Five cards in one row make every level visible on a typical laptop. */
+/* Six levels form two balanced rows on larger screens. */
 @media (min-width: 1200px) {
   .level-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
   }
   .level-card,
@@ -1110,5 +1106,104 @@ h1 {
 @media (min-width: 1001px) and (max-height: 800px) {
   .level-complete {
     padding: 24px 30px;
+  }
+}
+
+.place-hint {
+  color: #596c77;
+  line-height: 1.6;
+  margin: -14px auto 20px;
+  max-width: 470px;
+}
+.place-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  min-height: 96px;
+  padding: 18px;
+  margin: 16px auto 24px;
+  border: 2px dashed #c6d8cc;
+  border-radius: 18px;
+  background: #f6faf5;
+  max-width: 460px;
+}
+.tens-boxes {
+  display: grid;
+  grid-template-columns: repeat(2, 56px);
+  gap: 5px;
+}
+.tens-boxes:empty,
+.ones-balls:empty {
+  display: none;
+}
+.ten-box {
+  border: 2px solid #538369;
+  background: #deefdf;
+  border-radius: 6px;
+  font-size: 22px;
+  font-weight: 900;
+  padding: 3px;
+}
+.ones-balls {
+  display: grid;
+  grid-template-columns: repeat(2, 22px);
+  gap: 8px;
+}
+.one-ball {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #947129;
+  border-radius: 50%;
+  background: #f8d87c;
+}
+.place-target {
+  font-size: 48px;
+  font-weight: 900;
+  color: #365bd7;
+}
+.place-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+.place-controls > div {
+  display: grid;
+  gap: 8px;
+  font-weight: 800;
+}
+.place-controls > div > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.place-controls .ant-btn {
+  width: 46px;
+  height: 46px;
+  font-size: 24px;
+}
+.place-controls output {
+  min-width: 24px;
+  font-size: 24px;
+}
+.split-equation {
+  gap: 12px;
+  font-size: clamp(24px, 5vw, 44px);
+}
+.split-equation .ant-input {
+  width: 100px;
+  height: 85px;
+  font-size: 36px;
+}
+@media (max-width: 480px) {
+  .split-equation {
+    gap: 7px;
+  }
+  .split-equation .ant-input {
+    width: 65px;
+    height: 70px;
+    font-size: 28px;
   }
 }

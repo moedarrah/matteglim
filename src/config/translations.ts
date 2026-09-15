@@ -49,6 +49,11 @@ const sv = {
       description: 'Blandade tal och en större utmaning',
       example: '45 + 23',
     },
+    '6': {
+      name: 'Tiotal och ental',
+      description: 'Räkna, bygg och dela upp tal från 0 till 100',
+      example: '23 = 20 + 3',
+    },
   } as Record<string, { name: string; description: string; example: string }>,
   score: 'Poäng',
   levelComplete: 'Du klarade nivån! 🎉',
@@ -58,6 +63,26 @@ const sv = {
     `${score} av ${target} poäng`,
   hearts: (count: number) => `${count} hjärtan kvar av 3`,
   questionPrompt: 'Vad blir det?',
+  placeValue: {
+    count: 'Hur många bollar är det?',
+    build: 'Bygg talet med tiotal och ental',
+    buildHint:
+      'Använd + och − för att bygga talet. Kontrollera sedan ditt svar.',
+    split: 'Dela upp talet i tiotal och ental',
+    hint: 'Varje låda innehåller 10 bollar. Varje lös boll är 1.',
+    splitHint:
+      'Skriv tiotalens värde först, sedan entalen. Exempel: 23 = 20 + 3.',
+    tens: 'Tiotal',
+    ones: 'Ental',
+    tensValue: 'Tiotalens värde',
+    addTen: 'Lägg till en tiotalslåda',
+    removeTen: 'Ta bort en tiotalslåda',
+    addOne: 'Lägg till en boll',
+    removeOne: 'Ta bort en boll',
+    empty: 'Inga lådor eller bollar ännu.',
+    blocks: (tens: number, ones: number) =>
+      `${tens} tiotalslådor och ${ones} lösa bollar`,
+  },
   questionNote: 'Ta den tid du behöver.',
   answerLabel: 'Skriv ditt svar',
   checkAnswer: 'Kontrollera svar',

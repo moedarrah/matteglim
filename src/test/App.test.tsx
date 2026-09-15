@@ -35,18 +35,18 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 describe('Matteglim', () => {
-  it('navigates Home → Start → five levels → game', () => {
+  it('navigates Home → Start → six levels → game', () => {
     open()
     fireEvent.click(screen.getByRole('link', { name: 'Start' }))
     expect(
       screen.getByRole('heading', { name: t.levelIntro }),
     ).toBeInTheDocument()
-    expect(document.querySelectorAll('.level-card')).toHaveLength(5)
+    expect(document.querySelectorAll('.level-card')).toHaveLength(6)
     fireEvent.click(screen.getByRole('link', { name: /Nivå 1/ }))
     expect(input()).toHaveFocus()
     expect(screen.getByRole('img', { name: t.hearts(3) })).toBeInTheDocument()
   })
-  it.each(['1', '2', '3', '4', '5'])('opens level %s directly', (id) => {
+  it.each(['1', '2', '3', '4', '5', '6'])('opens level %s directly', (id) => {
     open(`/game/${id}`)
     expect(input()).toHaveFocus()
     expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
@@ -238,4 +238,54 @@ describe('Matteglim', () => {
     expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
     expect(input()).toHaveFocus()
   })
+})
+
+it('plays counting, building and splitting with place-value validation', () => {
+  vi.useFakeTimers()
+  vi.spyOn(Math, 'random').mockReturnValue(23.1 / 101)
+  open('/game/6')
+  expect(
+    screen.getByRole('img', { name: t.placeValue.blocks(2, 3) }),
+  ).toBeInTheDocument()
+  submit('23')
+  act(() => vi.advanceTimersByTime(1100))
+  expect(
+    screen.getByRole('heading', { name: t.placeValue.build }),
+  ).toBeInTheDocument()
+  expect(screen.getByTestId('question')).toHaveTextContent('24')
+  const addTen = screen.getByRole('button', { name: t.placeValue.addTen })
+  const addOne = screen.getByRole('button', { name: t.placeValue.addOne })
+  expect(addTen).toHaveFocus()
+  fireEvent.click(addTen)
+  fireEvent.click(addTen)
+  for (let i = 0; i < 3; i++) fireEvent.click(addOne)
+  fireEvent.click(screen.getByRole('button', { name: t.checkAnswer }))
+  expect(screen.getByRole('img', { name: t.hearts(2) })).toBeInTheDocument()
+  expect(
+    screen.getByRole('img', { name: t.placeValue.blocks(2, 3) }),
+  ).toBeInTheDocument()
+  act(() => vi.advanceTimersByTime(450))
+  fireEvent.click(addOne)
+  fireEvent.click(screen.getByRole('button', { name: t.checkAnswer }))
+  expect(addOne).toBeDisabled()
+  expect(screen.getByText('2', { selector: 'strong' })).toBeInTheDocument()
+  act(() => vi.advanceTimersByTime(1100))
+  const tens = screen.getByRole('textbox', { name: t.placeValue.tensValue })
+  const ones = screen.getByRole('textbox', { name: t.placeValue.ones })
+  expect(tens).toHaveFocus()
+  fireEvent.change(tens, { target: { value: '2' } })
+  expect(screen.getByRole('button', { name: t.checkAnswer })).toBeDisabled()
+  fireEvent.change(ones, { target: { value: '21' } })
+  fireEvent.submit(tens.closest('form')!)
+  expect(screen.getByRole('img', { name: t.hearts(1) })).toBeInTheDocument()
+  act(() => vi.advanceTimersByTime(450))
+  fireEvent.change(tens, { target: { value: '20' } })
+  fireEvent.change(ones, { target: { value: '3' } })
+  fireEvent.submit(tens.closest('form')!)
+  expect(screen.getByText('3', { selector: 'strong' })).toBeInTheDocument()
+  act(() => vi.advanceTimersByTime(1100))
+  expect(
+    screen.getByRole('heading', { name: t.placeValue.count }),
+  ).toBeInTheDocument()
+  expect(input()).toHaveFocus()
 })
