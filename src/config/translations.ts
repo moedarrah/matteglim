@@ -30,9 +30,9 @@ const sv = {
       example: '4 + 3',
     },
     '2': {
-      name: 'På upptäcktsfärd',
-      description: 'Plus och minus från 0 till 20',
-      example: '12 − 5',
+      name: 'Minuskul',
+      description: 'Bara minus med tal från 0 till 20',
+      example: '15 − 7',
     },
     '3': {
       name: 'Tiotal och ental',
@@ -40,24 +40,24 @@ const sv = {
       example: '23 = 20 + 3',
     },
     '4': {
+      name: 'På upptäcktsfärd',
+      description: 'Plus och minus från 0 till 20',
+      example: '12 − 5',
+    },
+    '5': {
       name: 'Lite högre!',
       description: 'Plus och minus från 0 till 50',
       example: '23 + 12',
     },
-    '5': {
+    '6': {
       name: 'Stjärnhopp',
       description: 'Plus, minus och små gångertabeller',
       example: '3 × 4',
     },
-    '6': {
+    '7': {
       name: 'Sifferstjärna',
       description: 'Blandade tal och en större utmaning',
       example: '45 + 23',
-    },
-    '7': {
-      name: 'Minuskul',
-      description: 'Bara minus med tal från 0 till 20',
-      example: '15 − 7',
     },
   } as Record<string, { name: string; description: string; example: string }>,
   score: 'Poäng',

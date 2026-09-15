@@ -31,7 +31,7 @@ Routes: `/`, `/levels`, `/game/:levelId`. Invalid level IDs redirect to `/levels
 
 Level 3, **Tiotal och ental**, practices place value from 0 to 100. Questions alternate between counting ten-ball boxes and single balls, building a number with boxes and balls, and splitting a number into tens and ones (23 = 20 + 3). Building uses up to ten boxes and nine single balls; 100 is represented by ten boxes.
 
-Level 7, **Minuskul**, offers subtraction-only practice with numbers from 0 to 20 and no negative answers.
+Level 2, **Minuskul**, offers subtraction-only practice with numbers from 0 to 20 and no negative answers.
 
 ## Static hosting
 
