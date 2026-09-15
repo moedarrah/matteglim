@@ -35,22 +35,25 @@ afterEach(() => {
   vi.restoreAllMocks()
 })
 describe('Matteglim', () => {
-  it('navigates Home → Start → six levels → game', () => {
+  it('navigates Home → Start → seven levels → game', () => {
     open()
     fireEvent.click(screen.getByRole('link', { name: 'Start' }))
     expect(
       screen.getByRole('heading', { name: t.levelIntro }),
     ).toBeInTheDocument()
-    expect(document.querySelectorAll('.level-card')).toHaveLength(6)
+    expect(document.querySelectorAll('.level-card')).toHaveLength(7)
     fireEvent.click(screen.getByRole('link', { name: /Nivå 1/ }))
     expect(input()).toHaveFocus()
     expect(screen.getByRole('img', { name: t.hearts(3) })).toBeInTheDocument()
   })
-  it.each(['1', '2', '3', '4', '5', '6'])('opens level %s directly', (id) => {
-    open(`/game/${id}`)
-    expect(input()).toHaveFocus()
-    expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
-  })
+  it.each(['1', '2', '3', '4', '5', '6', '7'])(
+    'opens level %s directly',
+    (id) => {
+      open(`/game/${id}`)
+      expect(input()).toHaveFocus()
+      expect(screen.getByText('0', { selector: 'strong' })).toBeInTheDocument()
+    },
+  )
   it('redirects invalid level IDs safely', () => {
     open('/game/banana')
     expect(

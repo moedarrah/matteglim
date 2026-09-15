@@ -54,6 +54,11 @@ const sv = {
       description: 'Blandade tal och en större utmaning',
       example: '45 + 23',
     },
+    '7': {
+      name: 'Minuskul',
+      description: 'Bara minus med tal från 0 till 20',
+      example: '15 − 7',
+    },
   } as Record<string, { name: string; description: string; example: string }>,
   score: 'Poäng',
   levelComplete: 'Du klarade nivån! 🎉',

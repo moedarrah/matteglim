@@ -58,4 +58,13 @@ export const levels: readonly Level[] = [
     color: 'yellow',
     icon: '🌟',
   },
+  {
+    id: '7',
+    min: 0,
+    max: 20,
+    operators: ['-'],
+    multiplicationMax: 0,
+    color: 'peach',
+    icon: '➖',
+  },
 ]

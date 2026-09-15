@@ -895,7 +895,7 @@ h1 {
   }
 }
 
-/* Six levels form two balanced rows on larger screens. */
+/* Show three level cards per row on larger screens. */
 @media (min-width: 1200px) {
   .level-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

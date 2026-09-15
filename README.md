@@ -31,6 +31,8 @@ Routes: `/`, `/levels`, `/game/:levelId`. Invalid level IDs redirect to `/levels
 
 Level 3, **Tiotal och ental**, practices place value from 0 to 100. Questions alternate between counting ten-ball boxes and single balls, building a number with boxes and balls, and splitting a number into tens and ones (23 = 20 + 3). Building uses up to ten boxes and nine single balls; 100 is represented by ten boxes.
 
+Level 7, **Minuskul**, offers subtraction-only practice with numbers from 0 to 20 and no negative answers.
+
 ## Static hosting
 
 Deploy the `dist/` directory and configure the host to rewrite unknown paths to `index.html` for BrowserRouter deep links. Vite's development and preview servers already provide this fallback. `public/_redirects` provides it for hosts supporting that convention.
