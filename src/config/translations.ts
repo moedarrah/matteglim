@@ -35,24 +35,24 @@ const sv = {
       example: '12 − 5',
     },
     '3': {
+      name: 'Tiotal och ental',
+      description: 'Räkna, bygg och dela upp tal från 0 till 100',
+      example: '23 = 20 + 3',
+    },
+    '4': {
       name: 'Lite högre!',
       description: 'Plus och minus från 0 till 50',
       example: '23 + 12',
     },
-    '4': {
+    '5': {
       name: 'Stjärnhopp',
       description: 'Plus, minus och små gångertabeller',
       example: '3 × 4',
     },
-    '5': {
+    '6': {
       name: 'Sifferstjärna',
       description: 'Blandade tal och en större utmaning',
       example: '45 + 23',
-    },
-    '6': {
-      name: 'Tiotal och ental',
-      description: 'Räkna, bygg och dela upp tal från 0 till 100',
-      example: '23 = 20 + 3',
     },
   } as Record<string, { name: string; description: string; example: string }>,
   score: 'Poäng',

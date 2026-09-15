@@ -52,7 +52,7 @@ describe('question generation', () => {
 })
 
 describe('place value questions', () => {
-  const level = levels.find((level) => level.id === '6')!
+  const level = levels.find((level) => level.id === '3')!
   it.each([0, 9, 10, 23, 99, 100])(
     'represents %i with whole tens and remaining ones',
     (number) => {

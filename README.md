@@ -29,7 +29,7 @@ yarn preview
 
 Routes: `/`, `/levels`, `/game/:levelId`. Invalid level IDs redirect to `/levels`. Sessions restart on reload or when choosing a new level. Each correct answer earns one point and advances after 1.1 seconds; a wrong answer removes one heart and keeps the question.
 
-Level 6, **Tiotal och ental**, practices place value from 0 to 100. Questions alternate between counting ten-ball boxes and single balls, building a number with boxes and balls, and splitting a number into tens and ones (23 = 20 + 3). Building uses up to ten boxes and nine single balls; 100 is represented by ten boxes.
+Level 3, **Tiotal och ental**, practices place value from 0 to 100. Questions alternate between counting ten-ball boxes and single balls, building a number with boxes and balls, and splitting a number into tens and ones (23 = 20 + 3). Building uses up to ten boxes and nine single balls; 100 is represented by ten boxes.
 
 ## Static hosting
 

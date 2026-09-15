@@ -243,7 +243,7 @@ describe('Matteglim', () => {
 it('plays counting, building and splitting with place-value validation', () => {
   vi.useFakeTimers()
   vi.spyOn(Math, 'random').mockReturnValue(23.1 / 101)
-  open('/game/6')
+  open('/game/3')
   expect(
     screen.getByRole('img', { name: t.placeValue.blocks(2, 3) }),
   ).toBeInTheDocument()
