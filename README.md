@@ -12,7 +12,7 @@ yarn
 yarn dev
 ```
 
-The development server runs at http://localhost:3000.
+The development server runs at http://localhost:3300.
 
 ```sh
 yarn build
