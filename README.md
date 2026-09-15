@@ -12,6 +12,8 @@ yarn
 yarn dev
 ```
 
+The development server runs at http://localhost:3000.
+
 ```sh
 yarn build
 yarn lint
